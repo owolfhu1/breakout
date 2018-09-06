@@ -1,5 +1,6 @@
-
+//https://github.com/owolfhu1/breakout
 import React from 'react';
+import Block from './Block';
 
 const style = {
     position : 'relative',
@@ -28,6 +29,26 @@ class Game extends React.Component {
             ballX : 100,
             ballY : 20,
             interval : null,
+
+            blocks: [
+
+                {bottom:20,left:40,health:2},
+                {bottom:40,left:40,health:2},
+                {bottom:60,left:40,health:2},
+                {bottom:80,left:40,health:2},
+                {bottom:20,left:80,health:2},
+                {bottom:40,left:80,health:2},
+                {bottom:60,left:80,health:2},
+                {bottom:80,left:80,health:2},
+            
+            
+
+                //dont need index thats automatic lol
+                //im going to work on a funciton, you can make this 
+                //programaticly instead of typing it all if you want, or jsut amke a few
+
+                
+            ],
         };
         this.moveBall = this.moveBall.bind(this);
     }
@@ -38,8 +59,7 @@ class Game extends React.Component {
     }
 
     moveBall() {
-//hmmm not sure where youa re going with this il watch
-        //move paddle
+
         if(this.state.movingRight){
             if(this.state.paddle<=(500-this.state.paddleWidth)-this.state.speed){                
                 this.setState({paddle:this.state.paddle + this.state.speed});
@@ -77,13 +97,10 @@ class Game extends React.Component {
 
         if ((this.state.YDir > 0 && this.state.ballY > 480) ||
          (this.state.YDir < 0 && this.state.ballY < this.state.paddleY && 
-            this.state.paddle -10 < this.state.ballX && //wtf this makes it smaller range
-            this.state.paddle +10 > this.state.ballX - this.state.paddleWidth)) {//it gets stuck if youre not jumping, you shouldnt have to jump to bounce it
-            this.setState({//thats kinda cool though, its a challenge to volly it currently lol
-                YDir : this.state.YDir* ((this.state.jumping && this.state.ballY < this.state.paddleY) ? -2 : -1 ),//woah daz cool
-
-                
-            })  
+            this.state.paddle -10 < this.state.ballX && 
+            this.state.paddle +10 > this.state.ballX - this.state.paddleWidth)) {
+            this.setState({YDir : this.state.YDir * -1 + 
+                ((this.state.jumping && this.state.ballY < this.state.paddleY) ? 1 : 0 )})  
                     
         }
 
@@ -92,12 +109,11 @@ class Game extends React.Component {
             ballY : this.state.ballY + this.state.YDir,
         })
 
-        if (this.state.ballY < -10) {
+        if (this.state.ballY < -1 * this.YDir) {
             clearInterval(this.state.interval);
         }
 
-        
-    }            
+    }
 
     getPaddleStyle() {
         return {
@@ -135,7 +151,7 @@ class Game extends React.Component {
                 break;
             }
             case 'ArrowUp' : {
-                if(this.state.canJump&&this.state.paddleY==0){
+                if(this.state.canJump&&this.state.paddleY===0){
                     this.setState({jumping:true});
                 }                           
                 break;
@@ -157,6 +173,31 @@ class Game extends React.Component {
         }
     }
 
+    killYourSelf(index) {
+        return () => {
+            let blocks = this.state.blocks;
+            delete blocks[index];
+            this.setState({blocks});
+        }
+    }
+
+    drawBlocks() {
+        let list = [];
+        for (let i = 0; i < this.state.blocks.length; i++) {
+            if (this.state.blocks[i])
+            list.push(<Block bottom={this.state.blocks[i].bottom} 
+                             left={this.state.blocks[i].left} 
+                             die={this.killYourSelf(i)} 
+                             health={this.state.blocks[i].health}
+                             ball={{
+                                 x:this.state.ballX,
+                                 y:this.state.ballY
+                             }}
+                              />);
+            }
+        return list;
+    }
+
     render() {
         return (
             <div ref={div => {this.windowDiv = div;}}
@@ -165,6 +206,10 @@ class Game extends React.Component {
                  onKeyDown={this.handleKeyDown.bind(this)}
                  onKeyUp={this.handleKeyUp.bind(this)}>
                 
+                    {this.drawBlocks()}
+                
+                
+
                 <span style={this.getBallStyle()}></span>
                 <span style={this.getPaddleStyle()}></span>
 
