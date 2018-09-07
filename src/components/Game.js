@@ -1,6 +1,8 @@
 //https://github.com/owolfhu1/breakout
 import React from 'react';
 import Block from './Block';
+const levels = require('./levels');
+
 
 const style = {
     position : 'relative',
@@ -19,7 +21,7 @@ class Game extends React.Component {
             speed : 5,
             movingLeft:false,
             movingRight:false,
-            paddleWidth: 20,
+            paddleWidth: 150,
             paddle : 200,
             paddleY : 0,
             canJump:true,
@@ -28,53 +30,41 @@ class Game extends React.Component {
             YDir:1,
             ballX : 200,
             ballY : 200,
-            radius : 5,
+            radius : 10,
             interval : null,
-
-            blocks: [
-
-                {bottom:300,left:40,health:2},
-                {bottom:320,left:40,health:2},
-                {bottom:340,left:40,health:2},
-                {bottom:360,left:40,health:2},
-                {bottom:300,left:120,health:2},
-                {bottom:320,left:120,health:2},
-                {bottom:340,left:120,health:2},
-                {bottom:360,left:120,health:2},
-                {bottom:300,left:200,health:2},
-                {bottom:320,left:200,health:2},
-                {bottom:340,left:200,health:2},
-                {bottom:360,left:200,health:2},
-                {bottom:300,left:270,health:2},
-                {bottom:320,left:270,health:2},
-                {bottom:340,left:270,health:2},
-                {bottom:360,left:270,health:2},
-                {bottom:200,left:200,health:2},
-                {bottom:220,left:200,health:2},
-                {bottom:240,left:200,health:2},
-                {bottom:260,left:200,health:2},
-                {bottom:200,left:270,health:2},
-                {bottom:220,left:270,health:2},
-                {bottom:240,left:270,health:2},
-                {bottom:260,left:270,health:2},
-
-
-                //dont need index thats automatic lol
-                //im going to work on a funciton, you can make this
-                //programaticly instead of typing it all if you want, or jsut amke a few
-
-
-            ],
+            blocks: null,
+            level: 0,
         };
         this.moveBall = this.moveBall.bind(this);//ok it sort of works, try that
     }//go to line 178 come on
 
     componentDidMount() {
         this.windowDiv.focus();
-        this.setState({interval : setInterval(this.moveBall, 10)});
+        this.setState({blocks: levels[0]},
+             () => this.setState({interval : setInterval(this.moveBall, 10)}));
+    }
+
+    //because blocks length doesnt actualy change
+    blocksLength() {
+        let length = 0;
+        for (let i in this.state.blocks) {
+            if (this.state.blocks[i])
+                length++;
+        }
+        return length;
     }
 
     moveBall() {
+
+        if (this.blocksLength() === 0){
+            let level = this.state.level + 1;
+            //alert('good job on level ' + level);
+            
+            if (levels.length > level) {
+                let blocks = levels[level];
+                this.setState({level,blocks});
+            }
+        }
 
         if(this.state.movingRight){
             if(this.state.paddle<=(500-this.state.paddleWidth)-this.state.speed){
@@ -113,12 +103,12 @@ class Game extends React.Component {
 
         if ((this.state.YDir > 0 && this.state.ballY > 500 - 2*this.state.radius) ||
          (this.state.YDir < 0 && this.state.ballY < this.state.paddleY &&
-            this.state.paddle -10 < this.state.ballX &&
-            this.state.paddle +10 > this.state.ballX - this.state.paddleWidth)) {
+            this.state.paddle - this.state.radius < this.state.ballX &&
+            this.state.paddle - this.state.radius > this.state.ballX - this.state.paddleWidth)) {
 
             let zone = this.state.ballX - this.state.paddle + this.state.radius;
 
-            //debugger
+            alert()            //debugger
             //alert(zone)
 
             let YDir = this.state.YDir < 0 && !this.state.jumping ? 1 :
@@ -230,7 +220,7 @@ class Game extends React.Component {
 
     drawBlocks() {
         let list = [];
-        for (let i = 0; i < this.state.blocks.length; i++) {
+        for (let i in this.state.blocks) {
             if (this.state.blocks[i])
             list.push(<Block bottom={this.state.blocks[i].bottom}
                              left={this.state.blocks[i].left}
@@ -254,17 +244,20 @@ class Game extends React.Component {
 
     render() {
         return (
-            <div ref={div => {this.windowDiv = div;}}
-                 tabIndex="0"
-                 style={style}
-                 onKeyDown={this.handleKeyDown.bind(this)}
-                 onKeyUp={this.handleKeyUp.bind(this)}>
+            <div>
+                level : {this.state.level + 1}
+                <div ref={div => {this.windowDiv = div;}}
+                    tabIndex="0"
+                    style={style}
+                    onKeyDown={this.handleKeyDown.bind(this)}
+                    onKeyUp={this.handleKeyUp.bind(this)}>
 
-                {this.drawBlocks()}
+                    {this.drawBlocks()}
 
-                <span style={this.getBallStyle()}></span>
-                <span style={this.getPaddleStyle()}></span>
+                    <span style={this.getBallStyle()}></span>
+                    <span style={this.getPaddleStyle()}></span>
 
+                </div>
             </div>
         )
     }
