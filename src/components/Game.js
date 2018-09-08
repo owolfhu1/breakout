@@ -25,7 +25,7 @@ class Game extends React.Component {
             paddleY : 0,
             canJump:true,
             jumping:false,
-            XDir:1,
+            XDir:Math.random() < 0.5 ? -1 : 1,
             YDir:1,
             ballX : 250,
             ballY : 0,

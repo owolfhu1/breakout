@@ -60,14 +60,6 @@ const levelFour = () => {
     let blocks = [];
     for (let i = 100; i < 470; i += 20) {
         blocks.push({
-            height: 70,
-            width: 70,
-            color: c(),
-            bottom: i + 50,
-            left: i - 50,
-            unbreakable: true
-        });
-        blocks.push({
             height: 10,
             width: 10,
             color: c(),
