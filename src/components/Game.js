@@ -20,7 +20,7 @@ class Game extends React.Component {
             speed : 5,
             movingLeft:false,
             movingRight:false,
-            paddleWidth: 150,
+            paddleWidth: 100,
             paddle : 200,
             paddleY : 0,
             canJump:true,
@@ -34,7 +34,7 @@ class Game extends React.Component {
             blocks: null,
             level: 0,
         };
-        this.moveBall = this.moveBall.bind(this);//ok it sort of works, try that
+        this.moveBall = this.moveBall.bind(this);
     }
 
     componentDidMount() {

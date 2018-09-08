@@ -1,4 +1,5 @@
-const colors = ['red','blue','yellow','green','purple','orange','pink','teal'];
+const colors = ['red','blue','yellow','green','purple','orange','pink','teal',
+                'lightblue','lightgreen','lightpurple'];
 const i = max => Math.floor(Math.random() * Math.floor(max));
 const c = () => colors[i(colors.length)];
 
@@ -60,13 +61,11 @@ const levelThree = () => {
 };
 
 const levels = [
-    levelThree(),
+
     levelOne(),
     levelTwo(),
-
-
+    levelThree(),
 
 ];
-
 
 module.exports = levels;
