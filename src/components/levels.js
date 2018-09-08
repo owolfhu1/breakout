@@ -1,5 +1,5 @@
 const colors = ['red','blue','yellow','green','purple','orange','pink','teal',
-                'lightblue','lightgreen','lightpurple'];
+                'lightblue','lightgreen'];
 const i = max => Math.floor(Math.random() * Math.floor(max));
 const c = () => colors[i(colors.length)];
 
@@ -32,9 +32,7 @@ const levelTwo = () => {
     return blocks;
 };
 const levelThree = () => {
-
     let blocks = [];
-
     for (let y = 180; y < 440; y += 80)
         for (let x = 30; x < 450; x += 40)
             blocks.push({
@@ -44,7 +42,6 @@ const levelThree = () => {
                 bottom:y,
                 left:x
             });
-
     for (let y = 140; y < 440; y += 80)
         for (let x = 33; x < 420; x += 75)
         blocks.push({
@@ -55,8 +52,6 @@ const levelThree = () => {
             left:x,
             unbreakable:true
         });
-
-
     return blocks
 };
 
