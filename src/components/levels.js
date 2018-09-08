@@ -105,6 +105,17 @@ const levels = [
     levelThree(),
     levelFour(),
 
+
+    levelOne(), levelTwo(), levelThree(), levelFour(),
+    levelOne(), levelTwo(), levelThree(), levelFour(),
+    levelOne(), levelTwo(), levelThree(), levelFour(),
+    levelOne(), levelTwo(), levelThree(), levelFour(),
+    levelOne(), levelTwo(), levelThree(), levelFour(),
+    levelOne(), levelTwo(), levelThree(), levelFour(),
+    levelOne(), levelTwo(), levelThree(), levelFour(),
+    levelOne(), levelTwo(), levelThree(), levelFour(),
+    levelOne(), levelTwo(), levelThree(), levelFour(),
+
 ];
 
 module.exports = levels;
