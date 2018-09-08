@@ -9,7 +9,7 @@ class Block extends React.Component {
             // alive : true,
             health: 1, //this.props.health,
             // invincible: false || this.props.invincible,
-        }
+        };
         console.log(this.state.health)
     }
 
@@ -37,34 +37,29 @@ class Block extends React.Component {
                 (cornerDist <= (ball.radius ^ 2))
             ) {
                 if (ballCenterY < blockCenterY) {
-                    if (this.state.health > 1){
-                        this.setState({health: this.state.health - 1});
-                        this.props.die('top');
-                    } else
+                    //if (this.props.unbreakable){
+                      //  this.props.die('top');
+                    //} else
                     this.props.die('top', true);
                 } else if (ballCenterY > blockCenterY) {
-                    if (this.state.health > 1){
-                        this.setState({health: this.state.health - 1});
-                        this.props.die('bottom');
-                    } else
+                    //if (this.props.unbreakable){
+                      //  this.props.die('bottom');
+                    //} else
                     this.props.die('bottom', true);
                 } else if (ballCenterX < blockCenterX) {
-                    if (this.state.health > 1){
-                        this.setState({health: this.state.health - 1});
-                        this.props.die('left');
-                    } else
+                    //if (this.props.unbreakable){
+                      //  this.props.die('left');
+                    //} else
                     this.props.die('left', true);
                 } else if (ballCenterX > blockCenterX) {
-                    if (this.state.health > 1){
-                        this.setState({health: this.state.health - 1});
-                        this.props.die('right');
-                    } else
+                    //if (this.props.unbreakable){
+                      //  this.props.die('right');
+                    //} else
                     this.props.die('right', true);
                 } else {
-                    if (this.state.health > 1){
-                        this.setState({health: this.state.health - 1});
-                        this.props.die('bottom');
-                    } else
+                    //if (this.props.unbreakable){
+                      //  this.props.die('bottom');
+                    //} else
                     this.props.die('bottom', true);
                 }
             }
@@ -100,10 +95,10 @@ class Block extends React.Component {
                 position: 'absolute',
                 bottom: `${this.props.bottom}px`,
                 left: `${this.props.left}px`,
-                height: `${this.props.height}px`,
-                width: `${this.props.width}px`,
-                background: this.state.color,
-                border: '2px solid black',
+                height: `${this.props.height - 2}px`,
+                width: `${this.props.width - 2}px`,
+                background: this.props.color,
+                border: '1px solid black',
             }} />
         )
     }

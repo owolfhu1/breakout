@@ -10,8 +10,7 @@ const style = {
     height : '500px',
     border : 'black solid 1px',
     margin : '10px'
-}
-
+};
 
 class Game extends React.Component {
 
@@ -28,15 +27,15 @@ class Game extends React.Component {
             jumping:false,
             XDir:1,
             YDir:1,
-            ballX : 200,
-            ballY : 200,
+            ballX : 250,
+            ballY : 0,
             radius : 10,
             interval : null,
             blocks: null,
             level: 0,
         };
         this.moveBall = this.moveBall.bind(this);//ok it sort of works, try that
-    }//go to line 178 come on
+    }
 
     componentDidMount() {
         this.windowDiv.focus();
@@ -44,7 +43,7 @@ class Game extends React.Component {
              () => this.setState({interval : setInterval(this.moveBall, 10)}));
     }
 
-    //because blocks length doesnt actualy change
+    //because blocks length doesn't actually change
     blocksLength() {
         let length = 0;
         for (let i in this.state.blocks) {
@@ -108,7 +107,7 @@ class Game extends React.Component {
 
             let zone = this.state.ballX - this.state.paddle + this.state.radius;
 
-            alert()            //debugger
+            //debugger
             //alert(zone)
 
             let YDir = this.state.YDir < 0 && !this.state.jumping ? 1 :
@@ -130,7 +129,7 @@ class Game extends React.Component {
         this.setState({
             ballX : this.state.ballX + this.state.XDir,
             ballY : this.state.ballY + this.state.YDir,
-        })
+        });
 
         if (this.state.ballY < -1 * this.YDir) {
             clearInterval(this.state.interval);
@@ -183,7 +182,6 @@ class Game extends React.Component {
 
     }
 
-
     getBallStyle() {
         return {
             position : 'absolute',
@@ -222,23 +220,27 @@ class Game extends React.Component {
         let list = [];
         for (let i in this.state.blocks) {
             if (this.state.blocks[i])
-            list.push(<Block bottom={this.state.blocks[i].bottom}
-                             left={this.state.blocks[i].left}
-                             die={this.killYourSelf(i)}
-                             health={this.state.blocks[i].health}
-                             width={50}
-                             height={15}
-                             ball={{
-                                 x:this.state.ballX,
-                                 y:this.state.ballY,
-                                 radius:this.state.radius,
-                                 direction : {
-                                     x: this.state.XDir,
-                                     y: this.state.YDir
-                                 }
-                             }}
-                              />);
-            }
+                list.push(
+                    <Block bottom={this.state.blocks[i].bottom}
+                           left={this.state.blocks[i].left}
+                           die={this.killYourSelf(i)}
+                           health={this.state.blocks[i].health}
+                           width={this.state.blocks[i].width}
+                           height={this.state.blocks[i].height}
+                           ball={{
+                               x:this.state.ballX,
+                               y:this.state.ballY,
+                               radius:this.state.radius,
+                               direction : {
+                                   x: this.state.XDir,
+                                   y: this.state.YDir
+                               }
+                           }}
+                           color={this.state.blocks[i].color}
+                           unbreakable={this.state.blocks[i].unbreakable}
+                    />
+            );
+        }
         return list;
     }
 
@@ -247,15 +249,15 @@ class Game extends React.Component {
             <div>
                 level : {this.state.level + 1}
                 <div ref={div => {this.windowDiv = div;}}
-                    tabIndex="0"
-                    style={style}
-                    onKeyDown={this.handleKeyDown.bind(this)}
-                    onKeyUp={this.handleKeyUp.bind(this)}>
+                     tabIndex="0"
+                     style={style}
+                     onKeyDown={this.handleKeyDown.bind(this)}
+                     onKeyUp={this.handleKeyUp.bind(this)}>
 
                     {this.drawBlocks()}
 
-                    <span style={this.getBallStyle()}></span>
-                    <span style={this.getPaddleStyle()}></span>
+                    <span style={this.getBallStyle()}/>
+                    <span style={this.getPaddleStyle()}/>
 
                 </div>
             </div>
