@@ -44,22 +44,66 @@ const levelThree = () => {
             });
     for (let y = 140; y < 440; y += 80)
         for (let x = 33; x < 420; x += 75)
-        blocks.push({
-            height:30,
-            width:50,
-            color:'black',
-            bottom:y,
-            left:x,
-            unbreakable:true
-        });
+            blocks.push({
+                height:30,
+                width:50,
+                color:'black',
+                bottom:y,
+                left:x,
+                unbreakable:true
+            });
     return blocks
 };
+
+
+const levelFour = () => {
+    let blocks = [];
+    for (let i = 100; i < 470; i += 20) {
+        blocks.push({
+            height: 70,
+            width: 70,
+            color: c(),
+            bottom: i + 50,
+            left: i - 50,
+            unbreakable: true
+        });
+        blocks.push({
+            height: 10,
+            width: 10,
+            color: c(),
+            bottom: i,
+            left: i,
+            unbreakable: true
+        });
+        blocks.push({
+            height: 10,
+            width: 10,
+            color: c(),
+            bottom: i + 20,
+            left: i - 20,
+            unbreakable: true
+        });
+        blocks.push({
+            height: 5,
+            width: 5,
+            color: c(),
+            bottom: i - 40,
+            left: i + 40,
+            unbreakable: true
+        });
+
+    }
+    return blocks;
+};
+
+
 
 const levels = [
 
     levelOne(),
     levelTwo(),
     levelThree(),
+    levelFour(),
 
 ];
 
