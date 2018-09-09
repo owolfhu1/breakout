@@ -12,50 +12,54 @@ class Block extends React.Component {
     }
 
     render() {
-
         let { ball, left, bottom, width, height } = this.props;
-        let ballCenterX = ball.x + ball.radius;
-        let ballCenterY = ball.y - ball.radius;
-        let blockCenterX = left + width / 2;
-        let blockCenterY = bottom - height / 2;
-        let xDist = Math.abs(ballCenterX - blockCenterX);
-        let yDist = Math.abs(ballCenterY - blockCenterY);
-        let cornerDist = (xDist - width / 2) ^ 2 +
-            (yDist - height / 2) ^ 2;
-        if (
-            !(xDist > (width / 2 + ball.radius)) &&
-            !(yDist > (height / 2 + ball.radius))
-        ) {
+        if(ball.x>left-ball.radius&&
+            ball.y<bottom+ball.radius&&
+            ball.x<left+width&&
+            ball.y<bottom+height){
+            let ballCenterX = ball.x + ball.radius;
+            let ballCenterY = ball.y - ball.radius;
+            let blockCenterX = left + width / 2;
+            let blockCenterY = bottom - height / 2;
+            let xDist = Math.abs(ballCenterX - blockCenterX);
+            let yDist = Math.abs(ballCenterY - blockCenterY);
+            let cornerDist = (xDist - width / 2) ^ 2 +
+                (yDist - height / 2) ^ 2;
             if (
-                (xDist <= (width / 2)) ||
-                (yDist <= (height / 2)) ||
-                (cornerDist <= (ball.radius ^ 2))
+                !(xDist > (width / 2 + ball.radius)) &&
+                !(yDist > (height / 2 + ball.radius))
             ) {
-                if (ballCenterY < blockCenterY) {
-                    //if (this.props.unbreakable){
-                      //  this.props.die('top');
-                    //} else
-                    this.props.die('top', true);
-                } else if (ballCenterY > blockCenterY) {
-                    //if (this.props.unbreakable){
-                      //  this.props.die('bottom');
-                    //} else
-                    this.props.die('bottom', true);
-                } else if (ballCenterX < blockCenterX) {
-                    //if (this.props.unbreakable){
-                      //  this.props.die('left');
-                    //} else
-                    this.props.die('left', true);
-                } else if (ballCenterX > blockCenterX) {
-                    //if (this.props.unbreakable){
-                      //  this.props.die('right');
-                    //} else
-                    this.props.die('right', true);
-                } else {
-                    //if (this.props.unbreakable){
-                      //  this.props.die('bottom');
-                    //} else
-                    this.props.die('bottom', true);
+                if (
+                    (xDist <= (width / 2)) ||
+                    (yDist <= (height / 2)) ||
+                    (cornerDist <= (ball.radius ^ 2))
+                ) {
+                    if (ballCenterY < blockCenterY) {
+                        //if (this.props.unbreakable){
+                        //  this.props.die('top');
+                        //} else
+                        this.props.die('top', true);
+                    } else if (ballCenterY > blockCenterY) {
+                        //if (this.props.unbreakable){
+                        //  this.props.die('bottom');
+                        //} else
+                        this.props.die('bottom', true);
+                    } else if (ballCenterX < blockCenterX) {
+                        //if (this.props.unbreakable){
+                        //  this.props.die('left');
+                        //} else
+                        this.props.die('left', true);
+                    } else if (ballCenterX > blockCenterX) {
+                        //if (this.props.unbreakable){
+                        //  this.props.die('right');
+                        //} else
+                        this.props.die('right', true);
+                    } else {
+                        //if (this.props.unbreakable){
+                        //  this.props.die('bottom');
+                        //} else
+                        this.props.die('bottom', true);
+                    }
                 }
             }
         }
