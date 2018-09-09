@@ -1,5 +1,5 @@
 const colors = ['red','blue','yellow','green','purple','orange','pink','teal',
-                'lightblue','lightgreen'];
+                'lightblue','lightgreen','lightpurple'];
 const i = max => Math.floor(Math.random() * Math.floor(max));
 const c = () => colors[i(colors.length)];
 
@@ -80,7 +80,7 @@ const levelFour = () => {
             width: 5,
             color: c(),
             bottom: i - 40,
-            left: i + 40,
+            left: i + 35,
             unbreakable: true
         });
 
@@ -91,12 +91,12 @@ const levelFour = () => {
 
 
 const levels = [
-
     levelOne(),
     levelTwo(),
+
+
     levelThree(),
     levelFour(),
-
 
     levelOne(), levelTwo(), levelThree(), levelFour(),
     levelOne(), levelTwo(), levelThree(), levelFour(),

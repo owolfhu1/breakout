@@ -40,7 +40,7 @@ class Game extends React.Component {
     componentDidMount() {
         this.windowDiv.focus();
         this.setState({blocks: levels[0]},
-             () => this.setState({interval : setInterval(this.moveBall, 10)}));
+             () => this.setState({interval : setInterval(this.moveBall, 1)}));
     }
 
     //because blocks length doesn't actually change
