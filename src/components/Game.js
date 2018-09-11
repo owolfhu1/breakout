@@ -1,10 +1,12 @@
 //https://github.com/owolfhu1/breakout
 import React from 'react';
 import Block from './Block';
-const levels = require('./levels');
+const levels = require('../server/levels');
 
-const HEIGHT = 600;
-const WIDTH = 600;
+const Constants = require('../constants/Constants');
+
+const HEIGHT = Constants.GAME_HEIGHT;
+const WIDTH = Constants.GAME_WIDTH;
 
 const style = {
     position : 'relative',
@@ -16,8 +18,8 @@ const style = {
 
 class Game extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             speed : 10,
             movingLeft:false,
@@ -38,6 +40,9 @@ class Game extends React.Component {
             unstopable : false,
         };
         this.moveBall = this.moveBall.bind(this);
+
+        props.socket.emit('console','hello server, from client.');
+
     }
 
     componentDidMount() {
