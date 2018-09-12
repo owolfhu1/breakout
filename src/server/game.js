@@ -3,6 +3,7 @@ const levels = require('./levels');
 
 function Player(color) {
     this.points = 0;
+    this.lives = 3;
     this.ball = {
         x : 0,
         y : 0,
@@ -63,4 +64,5 @@ function Game() {
     };
 }
 
+module.exports = Game;
 

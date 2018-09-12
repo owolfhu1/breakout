@@ -5,7 +5,7 @@ import socketIOClient from 'socket.io-client';
 import Login from "./components/Login";
 import Lobby from "./components/Lobby";
 
-const socket = socketIOClient('http://localhost:4000');
+const socket = socketIOClient('http://localhost:4001');
 
 const page = current => {
     switch (current) {

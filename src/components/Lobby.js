@@ -1,10 +1,11 @@
 import React from 'react';
 
-const drawOnline = (list, socket, name) => {
+const drawOnline = (lobby, socket, name) => {
     let buttons = [];
-    for (let i in list)
+    for (let i in lobby) {
         if (name !== i)
-            buttons.push(<button onClick={() => socket.emit('play',list[i])}>{i}</button>);
+            buttons.push(<button onClick={() => socket.emit('request',i)}>{i}</button>);
+    }
     return buttons;
 };
 
@@ -24,6 +25,7 @@ export default class Lobby extends React.Component {
             lobby : {},
             chat : [],
             input : '',
+            request : null
         }
     }
 
@@ -38,6 +40,13 @@ export default class Lobby extends React.Component {
         socket.on('lobby',lobby => this.setState({lobby}));
         socket.on('get_name', name => this.setState({name}));
         socket.emit('get_name');
+        socket.on('request', data => this.setState({request:
+            <div>
+                <h1>game request from {data.name}</h1>
+                <button onClick={() => this.props.socket.emit('accept', data)}>accept</button>
+                <button onClick={() => this.setState({request:null})}>decline</button>
+            </div>
+        }));
     };
 
     handleInput = e => this.setState({input:e.target.value});
@@ -57,6 +66,7 @@ export default class Lobby extends React.Component {
                    onChange={this.handleInput.bind(this)}
                    placeholder="chat"/><br/>
             {drawOnline(this.state.lobby,this.props.socket,this.state.name)}
+            {this.state.request}
         </div>;
 
 }
