@@ -5,6 +5,7 @@ function Player(color) {
     this.points = 0;
     this.lives = 3;
     this.ball = {
+        radius : 10,
         x : 0,
         y : 0,
         dir : {
