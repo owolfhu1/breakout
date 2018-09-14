@@ -64,6 +64,8 @@ const makeGame = (player1, player2) => {
     let id2 = lobby[player2];
     delete lobby[player2];
 
+    console.log(player1 + ' : ' + player2);
+
     users[player1] = 'game';
     users[player2] = 'game';
     sendLobby();
@@ -75,7 +77,7 @@ const makeGame = (player1, player2) => {
         for (let player in data.players)
             io.to(gamePlayers[player].id).emit('new_frame', data);
         //todo: check for game ending conditions, and end game here
-    }, 50);
+    }, 20);
 
     games[gameId] = game;
     gamePlayers[player1] = {gameId,id:id1};
@@ -111,7 +113,7 @@ io.on('connection', socket => {
         chat(name,msg);
     });
 
-    socket.on('request', username => io.to(userId).emit('request', username));
+    socket.on('request', username => io.to(lobby[username]).emit('request', name));
 
     socket.on('accept', username => {
        if (username in lobby) {
@@ -119,6 +121,13 @@ io.on('connection', socket => {
        } //else todo
     });
 
+    socket.on('stop_start', () => games[gamePlayers[name]].startStop(name));
+
+    socket.on('move', dir => games[gamePlayers[name]].move(name,dir));
+
+    socket.on('jump', () => games[gamePlayers[name]].jump(name));
+
+    socket.on('stay', dir => games[gamePlayers[name]].stay(name,dir));
 
     socket.on('disconnect', () => logout(name));
 
