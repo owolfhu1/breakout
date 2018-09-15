@@ -16,36 +16,53 @@ const style = {
     margin : '10px'
 };
 
-this.points = 0;
-this.lives = 3;
-this.ball = {
-    radius:1,
-    x : 0,
-    y : 0,
-    dir : {
-        x : 1,
-        y : 1
-    }
-};
-this.paddle = {
-    speed : 5,
-    width : 100,
-    moving : '',
-    x : 0,
-    y : 0,
-};
-this.color = color;
+// this.points = 0;
+// this.lives = 3;
+// this.ball = {
+//     radius:1,
+//     x : 0,
+//     y : 0,
+//     dir : {
+//         x : 1,
+//         y : 1
+//     }
+// };
+// this.paddle = {
+//     speed : 5,
+//     width : 100,
+//     moving : '',
+//     x : 0,
+//     y : 0,
+// };
+// this.color = color;
 
 const Block = props =>
     <span style={{
         position: 'absolute',
-        bottom: `${props.x}px`,
-        left: `${props.y}px`,
+        bottom: `${props.y}px`,
+        left: `${props.x}px`,
         height: `${props.height - 2}px`,
         width: `${props.width - 2}px`,
         background: props.color,
         border: '1px solid black',
-    }} />;
+    }}/>;
+
+const drawBlocks = blocks => {
+
+    let list = [];
+
+    for (let i in blocks) {
+        if (blocks[i])
+            list.push(
+                <Block height={blocks[i].height}
+                       width={blocks[i].width}
+                       color={blocks[i].color}
+                       x={blocks[i].left}
+                       y={blocks[i].bottom}/>
+            );
+    }
+    return list;
+};
 
 const Paddle = props =>
     <span style={{
@@ -65,6 +82,7 @@ const Ball = props =>
         bottom : props.y + 'px',
         background : props.color,
         position : 'absolute',
+        borderRadius : props.radius + 'px',
     }}/>;
 
 const drawPlayers = players => {
@@ -92,7 +110,7 @@ class Game extends React.Component {
             players : {},
             blocks : [],
         };
-        this.moveBall = this.moveBall.bind(this);
+       // this.moveBall = this.moveBall.bind(this);
 
         props.socket.emit('console','hello server, from client.');
 
@@ -205,40 +223,44 @@ class Game extends React.Component {
     //         left : `${this.state.paddle}px`,
     //     }
     // }
-    //
-    // handleKeyUp(e) {
-    //     switch(e.key) {
-    //         case 'ArrowLeft' : {
-    //             this.setState({movingLeft:false});
-    //             break;
-    //         }
-    //         case 'ArrowRight' : {
-    //             this.setState({movingRight:false});
-    //             break;
-    //         }
-    //     }
-    // }
-    //
-    // handleKeyDown(e) {
-    //
-    //     switch(e.key) {
-    //         case 'ArrowLeft' : {
-    //             this.setState({movingLeft:true});
-    //             break;
-    //         }
-    //         case 'ArrowRight' : {
-    //             this.setState({movingRight:true});
-    //             break;
-    //         }
-    //         case 'ArrowUp' : {
-    //             if(this.state.canJump&&this.state.paddleY===0){
-    //                 this.setState({jumping:true});
-    //             }
-    //             break;
-    //         }
-    //     }
-    //
-    // }
+
+    handleKeyUp(e) {
+        switch(e.key) {
+            case 'ArrowLeft' : {
+                this.props.socket.emit('stay','left');
+                break;
+            }
+            case 'ArrowRight' : {
+                this.props.socket.emit('stay','right');
+                break;
+            }
+            case 'Enter' : {
+                this.props.socket.emit('stop_start');
+            }
+        }
+    }
+
+    handleKeyDown(e) {
+
+        switch(e.key) {
+            case 'ArrowLeft' : {
+                this.props.socket.emit('move','left');
+                break;
+            }
+            case 'ArrowRight' : {
+                this.props.socket.emit('move','right');
+                break;
+            }
+            case 'ArrowUp' : {
+                this.props.socket.emit('jump');
+                // if(this.state.canJump&&this.state.paddleY===0){
+                //     this.setState({jumping:true});
+                // }
+                break;
+            }
+        }
+
+    }
     //
     // getBallStyle() {
     //     return {

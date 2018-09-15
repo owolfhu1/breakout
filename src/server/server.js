@@ -9,9 +9,10 @@ const Game = require('./game');
 
 const lobby = {};
 const users = {};
+const games = {};
+const gamePlayers = {};
 
 const login = (name, id) => {
-
     if (!users[name]) {
         lobby[name] = id;
         users[name] = 'lobby';
@@ -33,70 +34,55 @@ const chat = (name, msg) => {
 };
 
 const logout = name => {
-
-        if (!users[name])
+        if (!name)
             return;
-
         switch (users[name]) {
             case 'lobby' :
-                delete users[lobby];
                 delete lobby[name];
                 sendLobby();
                 break;
-
-
-
-
-
+            case 'game' :
+                games[gamePlayers[name]].removePlayer(name);
+                if (games[gamePlayers[name]].playersLeft() === 0) {
+                    delete games[gamePlayers[name]];
+                    clearInterval(gamePlayers[name]);
+                }
+                delete gamePlayers[name];
+                break;
         }
-
         delete users[name];
-
 };
 
-const games = {};
-const gamePlayers = {};
 
 const makeGame = (player1, player2) => {
-
     let id1 = lobby[player1];
     delete lobby[player1];
     let id2 = lobby[player2];
     delete lobby[player2];
-
-    console.log(player1 + ' : ' + player2);
-
     users[player1] = 'game';
     users[player2] = 'game';
     sendLobby();
-
     let game = new Game();
-
     let gameId = setInterval(() => {
         let data = game.getNextFrame();
         for (let player in data.players)
             io.to(gamePlayers[player].id).emit('new_frame', data);
         //todo: check for game ending conditions, and end game here
     }, 20);
-
     games[gameId] = game;
     gamePlayers[player1] = {gameId,id:id1};
     gamePlayers[player2] = {gameId,id:id2};
-
     io.to(id1).emit('page','game');
     io.to(id2).emit('page','game');
-
     game.addPlayer(player1);
     game.addPlayer(player2);
-
 };
 
 io.on('connection', socket => {
-
     const id = socket.id;
     let name;
 
-    console.log`connected: ${id}`;
+    console.log(`connected: ${id}`);
 
     socket.on('console',console.log);
 

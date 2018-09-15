@@ -6,7 +6,6 @@ const c = () => colors[i(colors.length)];
 
 const levelOne = () => {
     let blocks = [];
-
     for (let x = 50; x < 550; x += 20)
         for (let y = 200; y < 550; y += 20)
             blocks.push({
