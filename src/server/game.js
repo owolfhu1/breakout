@@ -38,7 +38,7 @@ function Game() {
     const newColor = () => colors.splice(Math.floor(Math.random() * Math.floor(colors.length)), 1)[0];
 
     let players = {};
-    let blocks = levels[0];
+    let blocks = JSON.parse(JSON.stringify(levels[3]));
     let level = 0;
 
     this.playersLeft = () => Object.keys(players).length;
@@ -108,6 +108,7 @@ function Game() {
                         let blockCenterX = x + width / 2;
                         let blockCenterY = y - height / 2;
 
+
                         // let ballCenterX = player.ball.x + player.ball.radius;
                         // let ballCenterY = player.ball.y - player.ball.radius;
 
@@ -119,41 +120,43 @@ function Game() {
                         let cornerDist = (xDist - width / 2) ^ 2 +
                             (yDist - height / 2) ^ 2;
 
+                        let collided = false;
                         if (
-                            !(xDist > (width / 2 + player.ball.radius)) &&
-                            !(yDist > (height / 2 + player.ball.radius))
+                            (xDist < (width / 2 + player.ball.radius)) ||
+                            (yDist < (height / 2 + player.ball.radius))
                         ) {
-                            if (
-                                (xDist <= (width / 2)) ||
-                                (yDist <= (height / 2)) ||
-                                (cornerDist <= (player.ball.radius ^ 2))
-                            ) {
+                            collided=false;
+                        } else if (
+                            (xDist <= (width / 2)) ||
+                            (yDist <= (height / 2))
+                        ) {
+                            collided=true;
+                        } else if(cornerDist <= (player.ball.radius ^ 2)){
+                            collided=true;
+                        }
 
-                                delete blocks[i];
-                                bounceOfBlock = true;
+                        if (collided) {
+                            delete blocks[i];
+                            bounceOfBlock = true;
 
-                                if (ballCenterY < blockCenterY) {
-                                    player.ball.dir.y = player.ball.dir.y * -1;
-                                    deletedY++;
-                                } else if (ballCenterY > blockCenterY) {
-                                    player.ball.dir.y = player.ball.dir.y * -1;
-                                    deletedY++;
-                                } else if (ballCenterX < blockCenterX) {
-                                    player.ball.dir.x = player.ball.dir.x * -1;
-                                    deletedX++;
-                                } else if (ballCenterX > blockCenterX) {
-                                    player.ball.dir.x = player.ball.dir.x * -1;
-                                    deletedX++;
-                                } else {
-                                    player.ball.dir.y = player.ball.dir.y * -1;
-                                    deletedY++;
-                                }
+                            if (ballCenterY < blockCenterY) {
+                                player.ball.dir.y = player.ball.dir.y * -1;
+                                deletedY++;
+                            } else if (ballCenterY > blockCenterY) {
+                                player.ball.dir.y = player.ball.dir.y * -1;
+                                deletedY++;
+                            } else if (ballCenterX < blockCenterX) {
+                                player.ball.dir.x = player.ball.dir.x * -1;
+                                deletedX++;
+                            } else if (ballCenterX > blockCenterX) {
+                                player.ball.dir.x = player.ball.dir.x * -1;
+                                deletedX++;
+                            } else {
+                                player.ball.dir.y = player.ball.dir.y * -1;
+                                deletedY++;
                             }
                         }
                     }
-
-
-
                 }
 
                 //move the ball
@@ -190,8 +193,6 @@ function Game() {
 
 
         }
-
-        //todo: game logic
 
         //todo: if blocks is empty, load next level
 

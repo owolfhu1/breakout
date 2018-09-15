@@ -6,7 +6,7 @@ import Login from "./components/Login";
 import Lobby from "./components/Lobby";
 const Constants = require('./constants/Constants');
 
-const socket = socketIOClient('http://localhost:4001');
+const socket = socketIOClient('http://localhost:4003');
 
 let body = {
     border : 'gray solid 2px',
