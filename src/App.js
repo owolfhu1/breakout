@@ -15,8 +15,9 @@ let body = {
     margin : 'auto',
     marginTop : '20px',
     background : 'lightgray',
-    width : (Constants.GAME_WIDTH + 50) + 'px',
-    height : (Constants.GAME_HEIGHT + 70) + 'px',
+    width : (Constants.GAME_WIDTH + 25) + 'px',
+    height : (Constants.GAME_HEIGHT + 60) + 'px',
+    padding : '20px'
 };
 
 const page = current => {

@@ -86,6 +86,7 @@ const Ball = props =>
     }}/>;
 
 const drawPlayers = players => {
+    console.log(players);
     let els = [];
     for (let name in players) {
         //todo: name, score, life.
@@ -100,6 +101,12 @@ const drawPlayers = players => {
                          color={player.color} />);
     }
     return els;
+};
+
+const drawStats = players => {
+    let list = [];
+    for (let player in players) list.push(<span style={{color : players[player].color}}>| ({player}: {players[player].points}) |</span>);
+    return list;
 };
 
 class Game extends React.Component {
@@ -332,7 +339,7 @@ class Game extends React.Component {
     render() {
         return (
             <div>
-                level : {this.state.level + 1}
+                {drawStats(this.state.players)}
                 <div ref={div => {this.windowDiv = div;}}
                      tabIndex="0"
                      style={style}
