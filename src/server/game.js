@@ -5,15 +5,17 @@ function Player(color) {
     this.points = 0;
     this.lives = 3;
     this.moving = false;
-    this.ball = {
-        radius : 10,
-        x : Math.floor(Math.random() * 550),
-        y : 0,
-        dir : {
-            x : Math.random() > .5 ? -1 : 1,
-            y : 2
+    this.ball =
+        {
+            radius: 10,
+            x: Math.floor(Math.random() * 550),
+            y: 0,
+            dir: {
+                x: Math.random() > .5 ? -1 : 1,
+                y: 2
+            }
         }
-    };
+    ;
     this.paddle = {
         speed : 10,
         width : 100,
@@ -229,9 +231,9 @@ function Game() {
 
             //temp start !!!!!!!!!!
 
+            //move ball
             if (player.isActive) {
 
-                //experiment
                 let nextBall = {
                     x : player.ball.x + player.ball.dir.x,
                     y : player.ball.y + player.ball.dir.y,
@@ -348,11 +350,6 @@ function Game() {
             //temp end !!!!!!!!!!
 
 
-
-
-
-
-        //     //move ball
         //     if (player.isActive) {
         //
         //         let nextBall = {
@@ -467,8 +464,7 @@ function Game() {
         //
         //
         //     }
-        //
-        //
+
         }
 
         //load next level if needed
