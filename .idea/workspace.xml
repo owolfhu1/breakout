@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1ac1e446-2b74-4981-afe0-5d735f0cd29b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Game.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/game.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -99,8 +97,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/server/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
-              <caret line="357" lean-forward="true" selection-start-line="357" selection-end-line="357" />
+            <state relative-caret-position="481">
+              <caret line="372" lean-forward="true" selection-start-line="372" selection-end-line="372" />
             </state>
           </provider>
         </entry>
@@ -195,8 +193,8 @@
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="718" />
+  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+    <option name="width" value="1440" />
     <option name="height" value="900" />
   </component>
   <component name="ProjectView">
@@ -290,12 +288,12 @@
       <workItem from="1536918801211" duration="3221000" />
       <workItem from="1536958614377" duration="5856000" />
       <workItem from="1536965110195" duration="3391000" />
-      <workItem from="1537012193393" duration="26469000" />
+      <workItem from="1537012193393" duration="27987000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="86402000" />
+    <option name="totallyTimeSpent" value="87920000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -307,7 +305,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="6" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23819591" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -456,8 +454,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/server/game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="357" lean-forward="true" selection-start-line="357" selection-end-line="357" />
+        <state relative-caret-position="481">
+          <caret line="372" lean-forward="true" selection-start-line="372" selection-end-line="372" />
         </state>
       </provider>
     </entry>
