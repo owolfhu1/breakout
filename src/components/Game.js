@@ -91,10 +91,15 @@ const drawPlayers = players => {
     for (let name in players) {
         //todo: name, score, life.
         let player = players[name];
-        els.push(<Ball radius={player.ball.radius}
-                       x={player.ball.x}
-                       y={player.ball.y}
-                       color={player.color} />);
+
+        for (let b in player.balls) {
+            let ball = player.balls[b];
+            els.push(<Ball radius={ball.radius}
+                           x={ball.x}
+                           y={ball.y}
+                           color={player.color}/>);
+        }
+
         els.push(<Paddle width={player.paddle.width}
                          x={player.paddle.x}
                          y={player.paddle.y}

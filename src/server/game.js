@@ -3,24 +3,21 @@ const levels = require('./levels');
 
 function Player(color) {
     this.points = 0;
-    this.lives = 3;
     this.moving = false;
-    this.ball =
-        {
-            radius: 10,
-            x: Math.floor(Math.random() * 550),
-            y: 0,
-            dir: {
-                x: Math.random() > .5 ? -1 : 1,
-                y: 2
-            }
+    this.balls = [{
+        radius : 10,
+        x : Math.floor(Math.random() * 550),
+        y : 0,
+        dir : {
+            x : Math.random() > .5 ? -1 : 1,
+            y : 2
         }
-    ;
+    }];
     this.paddle = {
         speed : 10,
         width : 100,
         moving : '',
-        x : this.ball.x - 40 > 0 ? this.ball.x - 40 : 0,
+        x : this.balls[0].x - 40 > 0 ? this.balls[0].x - 40 : 0,
         y : 0,
     };
     this.jumping = false;
@@ -226,83 +223,85 @@ function Game() {
 
             }
 
-
-
-
-            //temp start !!!!!!!!!!
-
             //move ball
             if (player.isActive) {
 
-                let nextBall = {
-                    x : player.ball.x + player.ball.dir.x,
-                    y : player.ball.y + player.ball.dir.y,
-                };
-                let bounceOfBlock;
 
-                let deletedX = 0;
-                let deletedY = 0;
+                for (let b in player.balls) {
 
-                //check if it will hit a block
-                for (let i in blocks) {
+                    let ball = player.balls[b];
 
-                    if (blocks[i]) {
+                    let nextBall = {
+                        x: ball.x + ball.dir.x,
+                        y: ball.y + ball.dir.y,
+                    };
+                    let bounceOfBlock;
 
+                    let deletedX = 0;
+                    let deletedY = 0;
 
-                        let {width, height} = blocks[i];
-                        let x = blocks[i].left;
-                        let y = blocks[i].bottom;
+                    //check if it will hit a block
+                    for (let i in blocks) {
 
-
-                        if (player.ball.x > x - player.ball.radius &&
-                            player.ball.y < y + player.ball.radius &&
-                            player.ball.x < x + width &&
-                            player.ball.y < y + height) {
+                        if (blocks[i]) {
 
 
-                            let blockCenterX = x + width / 2;
-                            let blockCenterY = y - height / 2;
+                            let {width, height} = blocks[i];
+                            let x = blocks[i].left;
+                            let y = blocks[i].bottom;
 
-                            // let ballCenterX = player.ball.x + player.ball.radius;
-                            // let ballCenterY = player.ball.y - player.ball.radius;
 
-                            let ballCenterX = nextBall.x + player.ball.radius;
-                            let ballCenterY = nextBall.y - player.ball.radius;
+                            if (ball.x > x - ball.radius &&
+                                ball.y < y + ball.radius &&
+                                ball.x < x + width &&
+                                ball.y < y + height) {
 
-                            let xDist = Math.abs(ballCenterX - blockCenterX);
-                            let yDist = Math.abs(ballCenterY - blockCenterY);
-                            let cornerDist = (xDist - width / 2) ^ 2 +
-                                (yDist - height / 2) ^ 2;
 
-                            if (
-                                !(xDist > (width / 2 + player.ball.radius)) &&
-                                !(yDist > (height / 2 + player.ball.radius))
-                            ) {
+                                let blockCenterX = x + width / 2;
+                                let blockCenterY = y - height / 2;
+
+                                // let ballCenterX = player.ball.x + player.ball.radius;
+                                // let ballCenterY = player.ball.y - player.ball.radius;
+
+                                let ballCenterX = nextBall.x + ball.radius;
+                                let ballCenterY = nextBall.y - ball.radius;
+
+                                let xDist = Math.abs(ballCenterX - blockCenterX);
+                                let yDist = Math.abs(ballCenterY - blockCenterY);
+                                let cornerDist = (xDist - width / 2) ^ 2 +
+                                    (yDist - height / 2) ^ 2;
+
                                 if (
-                                    (xDist <= (width / 2)) ||
-                                    (yDist <= (height / 2)) ||
-                                    (cornerDist <= (player.ball.radius ^ 2))
+                                    !(xDist > (width / 2 + ball.radius)) &&
+                                    !(yDist > (height / 2 + ball.radius))
                                 ) {
+                                    if (
+                                        (xDist <= (width / 2)) ||
+                                        (yDist <= (height / 2)) ||
+                                        (cornerDist <= (ball.radius ^ 2))
+                                    ) {
 
-                                    delete blocks[i];
-                                    player.points++;
-                                    bounceOfBlock = true;
+                                        delete blocks[i];
+                                        player.points++;
+                                        bounceOfBlock = true;
 
-                                    if (ballCenterY < blockCenterY) {
-                                        player.ball.dir.y = player.ball.dir.y * -1;
-                                        deletedY++;
-                                    } else if (ballCenterY > blockCenterY) {
-                                        player.ball.dir.y = player.ball.dir.y * -1;
-                                        deletedY++;
-                                    } else if (ballCenterX < blockCenterX) {
-                                        player.ball.dir.x = player.ball.dir.x * -1;
-                                        deletedX++;
-                                    } else if (ballCenterX > blockCenterX) {
-                                        player.ball.dir.x = player.ball.dir.x * -1;
-                                        deletedX++;
-                                    } else {
-                                        player.ball.dir.y = player.ball.dir.y * -1;
-                                        deletedY++;
+                                        if (ballCenterY < blockCenterY) {
+                                            ball.dir.y = ball.dir.y * -1;
+                                            deletedY++;
+                                        } else if (ballCenterY > blockCenterY) {
+                                            ball.dir.y = ball.dir.y * -1;
+                                            deletedY++;
+                                        } else if (ballCenterX < blockCenterX) {
+                                            ball.dir.x = ball.dir.x * -1;
+                                            deletedX++;
+                                        } else if (ballCenterX > blockCenterX) {
+                                            ball.dir.x = ball.dir.x * -1;
+                                            deletedX++;
+                                        } else {
+                                            ball.dir.y = ball.dir.y * -1;
+                                            deletedY++;
+                                        }
+
                                     }
 
                                 }
@@ -313,157 +312,67 @@ function Game() {
 
                     }
 
-                }
+                    //move the ball
+                    if (!bounceOfBlock) {
+                        ball.x += ball.dir.x;
+                        ball.y += ball.dir.y;
+                    } else {
+                        if (deletedY % 2 === 0 && deletedY !== 0) ball.dir.y = ball.dir.y * -1;
+                        if (deletedX % 2 === 0 && deletedX !== 0) ball.dir.x = ball.dir.x * -1;
+                    }
 
-                //move the ball
-                if (!bounceOfBlock) {
-                    player.ball.x += player.ball.dir.x;
-                    player.ball.y += player.ball.dir.y;
-                } else {
-                    if (deletedY % 2 === 0 && deletedY !== 0) player.ball.dir.y = player.ball.dir.y * -1;
-                    if (deletedX % 2 === 0 && deletedX !== 0) player.ball.dir.x = player.ball.dir.x * -1;
-                }
+                    //bounce off walls
+                    if (ball.x > Constants.GAME_HEIGHT - 2 * ball.radius) {
+                        ball.x = Constants.GAME_HEIGHT - 2 * ball.radius;
+                        ball.dir.x = -1 * ball.dir.x;
+                    } else if (ball.y > Constants.GAME_WIDTH - 2 * ball.radius) {
+                        ball.y = Constants.GAME_WIDTH - 2 * ball.radius;
+                        ball.dir.y = -1 * ball.dir.y
+                    } else if (ball.x < 0) {
+                        ball.x = 0;
+                        ball.dir.x = -1 * ball.dir.x;
+                    }
 
-                //bounce off walls
-                if (player.ball.x > Constants.GAME_HEIGHT - 2 * player.ball.radius) {
-                    player.ball.x = Constants.GAME_HEIGHT - 2 * player.ball.radius;
-                    player.ball.dir.x = -1 * player.ball.dir.x;
-                } else if (player.ball.y > Constants.GAME_WIDTH - 2 * player.ball.radius) {
-                    player.ball.y = Constants.GAME_WIDTH - 2 * player.ball.radius;
-                    player.ball.dir.y = -1 * player.ball.dir.y
-                } else if (player.ball.x < 0) {
-                    player.ball.x = 0;
-                    player.ball.dir.x = -1 * player.ball.dir.x;
-                }
+                    //bounce off paddle
+                    // else if (player.ball.y < player.paddle.y && paddleHit(player.ball, player.paddle) && player.ball.dir.y < 0) {
+                    //     player.ball.dir.y = player.jumping ? Math.abs(player.ball.dir.y) + 1 : 1;
+                    //     player.ball.dir.x =
+                    //         paddleHit(player.ball, player.paddle) === 'center' ? (player.ball.dir.x > 0 ? 1 : -1) :
+                    //             paddleHit(player.ball, player.paddle) === 'left' ? -2 : 2;
+                    // }
 
-                //bounce off paddle
-                else if (player.ball.y < player.paddle.y && paddleHit(player.ball, player.paddle) && player.ball.dir.y < 0) {
-                    player.ball.dir.y = player.jumping ? Math.abs(player.ball.dir.y) + 1 : 1;
-                    player.ball.dir.x =
-                        paddleHit(player.ball, player.paddle) === 'center' ? (player.ball.dir.x > 0 ? 1 : -1) :
-                            paddleHit(player.ball, player.paddle) === 'left' ? -2 : 2;
-                }
+                    for (let key in players) {
+                        let paddle = players[key].paddle;
+                        let jumping = players[key].jumping;
+                        if (
+                            ball.y < paddle.y &&
+                            paddleHit(ball,paddle) &&
+                            ball.dir.y < 0
+                        ) {
+                             ball.dir.y = jumping ? Math.abs(ball.dir.y) + 1 : 1;
+                             ball.dir.x = paddleHit(ball,paddle) === 'center' ? (ball.dir.x > 0 ? 1 : -1) :
+                                 (paddleHit(ball,paddle) === 'left' ? -2 : 2);
+                             players[key].balls.push(player.balls.splice(b*1, 1)[0]);
+
+                        }
+
+                    }
+
+
+
+
+                }//let b in balls
+
 
 
             }
 
-            //temp end !!!!!!!!!!
 
 
-        //     if (player.isActive) {
-        //
-        //         let nextBall = {
-        //             x : player.ball.x + player.ball.dir.x,
-        //             y : player.ball.y + player.ball.dir.y,
-        //         };
-        //
-        //         let bounceOfBlock;
-        //
-        //         let deletedX = 0;
-        //         let deletedY = 0;
-        //
-        //         //check if it will hit a block
-        //         for (let i in blocks) {
-        //
-        //             let {width, height} = blocks[i];
-        //             let x = blocks[i].left;
-        //             let y = blocks[i].bottom;
-        //
-        //
-        //             if(
-        //                 player.ball.x > x - player.ball.radius &&
-        //                 player.ball.y < y + player.ball.radius &&
-        //                 player.ball.x < x + width &&
-        //                 player.ball.y < y + height
-        //             ){
-        //
-        //                 let blockCenterX = x + width / 2;
-        //                 let blockCenterY = y - height / 2;
-        //
-        //                 let ballCenterX = nextBall.x + player.ball.radius;
-        //                 let ballCenterY = nextBall.y - player.ball.radius;
-        //
-        //                 let xDist = Math.abs(ballCenterX - blockCenterX);
-        //                 let yDist = Math.abs(ballCenterY - blockCenterY);
-        //                 let cornerDist = (xDist - width / 2) ^ 2 +
-        //                     (yDist - height / 2) ^ 2;
-        //
-        //                 let collided = false;
-        //                 if (
-        //                     (xDist < (width / 2 + player.ball.radius)) ||
-        //                     (yDist < (height / 2 + player.ball.radius))
-        //                 ) {
-        //                     collided = false;
-        //                 } else if (
-        //                     (xDist <= (width / 2)) ||
-        //                     (yDist <= (height / 2))
-        //                 ) {
-        //                     collided=true;
-        //                 } else if(cornerDist <= (player.ball.radius ^ 2)){
-        //                     collided=true;
-        //                 }
-        //
-        //                 if (collided) {
-        //                     delete blocks[i];
-        //                     player.points++;
-        //                     bounceOfBlock = true;
-        //
-        //                     if (ballCenterY < blockCenterY) {
-        //                         player.ball.dir.y = player.ball.dir.y * -1;
-        //                         deletedY++;
-        //                     } else if (ballCenterY > blockCenterY) {
-        //                         player.ball.dir.y = player.ball.dir.y * -1;
-        //                         deletedY++;
-        //                     } else if (ballCenterX < blockCenterX) {
-        //                         player.ball.dir.x = player.ball.dir.x * -1;
-        //                         deletedX++;
-        //                     } else if (ballCenterX > blockCenterX) {
-        //                         player.ball.dir.x = player.ball.dir.x * -1;
-        //                         deletedX++;
-        //                     } else {
-        //                         player.ball.dir.y = player.ball.dir.y * -1;
-        //                         deletedY++;
-        //                     }
-        //
-        //                 }
-        //
-        //             }
-        //
-        //         }
-        //
-        //         //move the ball
-        //         if (!bounceOfBlock) {
-        //             player.ball.x += player.ball.dir.x;
-        //             player.ball.y += player.ball.dir.y;
-        //         } else {
-        //             if (deletedY % 2 === 0 && deletedY !== 0)
-        //                 player.ball.dir.y = player.ball.dir.y * -1;
-        //             if (deletedX % 2 === 0 && deletedX !== 0)
-        //                 player.ball.dir.x = player.ball.dir.x * -1;
-        //         }
-        //
-        //         //bounce off walls
-        //         if (player.ball.x > Constants.GAME_HEIGHT - 2 * player.ball.radius) {
-        //             player.ball.x = Constants.GAME_HEIGHT - 2 * player.ball.radius;
-        //             player.ball.dir.x = -1 * player.ball.dir.x;
-        //         } else if (player.ball.y > Constants.GAME_WIDTH - 2 * player.ball.radius) {
-        //             player.ball.y = Constants.GAME_WIDTH - 2 * player.ball.radius;
-        //             player.ball.dir.y = -1 * player.ball.dir.y
-        //         } else if (player.ball.x < 0) {
-        //             player.ball.x = 0;
-        //             player.ball.dir.x = -1 * player.ball.dir.x;
-        //         }
-        //
-        //         //bounce off paddle
-        //         else if (player.ball.y < player.paddle.y && paddleHit(player.ball, player.paddle) && player.ball.dir.y < 0) {
-        //             player.ball.dir.y = player.jumping ? Math.abs(player.ball.dir.y) + 1 : 1;
-        //             player.ball.dir.x =
-        //                 paddleHit(player.ball, player.paddle) === 'center' ? (player.ball.dir.x > 0 ? 1 : -1) :
-        //                     paddleHit(player.ball, player.paddle) === 'left' ? -2 : 2;
-        //         }
-        //
-        //
-        //     }
+
+
+
+
 
         }
 
@@ -473,9 +382,12 @@ function Game() {
 
         //check if anyone is out of bounds. If so, deduct some points and turn them around.
         Object.keys(players).forEach(player => {
-            if (players[player].ball.y < -5 && players[player].ball.dir.y < 0) {
-                players[player].points = players[player].points - 20;
-                players[player].ball.dir.y = 1;
+            for (let b in players[player].balls) {
+                let ball = players[player].balls[b];
+                if (ball.y < -5 && ball.dir.y < 0) {
+                    players[player].points = players[player].points - 20;
+                    ball.dir.y = 1;
+                }
             }
         });
 
