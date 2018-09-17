@@ -18,10 +18,14 @@ export default class Login extends React.Component {
 
     render = () =>
         <div>
+            <h1>please enter your name to begin</h1>
             <input value={this.state.username}
                    onChange={this.handleInput.bind(this)}
                    onKeyUp={this.handleEnter.bind(this)}
-                   placeholder="enter a username"/>
+                   placeholder="enter a username"/><br/>
+            <button onClick={() => this.handleEnter({key:'Enter'})}>
+                start
+            </button>
         </div>;
 
 }

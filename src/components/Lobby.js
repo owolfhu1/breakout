@@ -16,6 +16,44 @@ const drawChat = list => {
     return chat;
 };
 
+const chat = {
+    position : 'absolute',
+    border : 'blue solid 2px',
+    top : '2%',
+    right : '2%',
+    height : '90%',
+    width : '55%',
+    textAlign : 'left',
+    overflowY : 'scroll',
+};
+
+const input = {
+    position: 'absolute',
+    bottom : '2%',
+    right : '5%',
+    width : '50%'
+};
+
+const online = {
+    position : 'absolute',
+    border : 'blue solid 2px',
+    top : '2%',
+    left : '2%',
+    height : '60%',
+    width : '40%',
+    textAlign : 'left',
+};
+
+const request = {
+    position : 'absolute',
+    border : 'blue solid 2px',
+    bottom : '2%',
+    left : '2%',
+    height : '35%',
+    width : '40%',
+};
+
+
 export default class Lobby extends React.Component {
 
     constructor(props) {
@@ -60,13 +98,26 @@ export default class Lobby extends React.Component {
 
     render = () =>
         <div>
-            {drawChat(this.state.chat)}
-            <input value={this.state.input}
+
+            <div style={chat}>
+                {drawChat(this.state.chat)}
+            </div>
+
+            <input style={input}
+                   value={this.state.input}
                    onKeyUp={this.handleEnter.bind(this)}
                    onChange={this.handleInput.bind(this)}
                    placeholder="chat"/><br/>
-            {drawOnline(this.state.lobby,this.props.socket,this.state.name)}
-            {this.state.request}
+
+            <div style={online}>
+                <h2>send a game request</h2>
+                {drawOnline(this.state.lobby,this.props.socket,this.state.name)}
+            </div>
+
+            <div style={request}>
+                {this.state.request}
+            </div>
+
         </div>;
 
 }
