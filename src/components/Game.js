@@ -86,7 +86,6 @@ const Ball = props =>
     }}/>;
 
 const drawPlayers = players => {
-    console.log(players);
     let els = [];
     for (let name in players) {
         //todo: name, score, life.
@@ -349,7 +348,9 @@ class Game extends React.Component {
                      tabIndex="0"
                      style={style}
                      onKeyDown={this.handleKeyDown.bind(this)}
-                     onKeyUp={this.handleKeyUp.bind(this)}>
+                     onKeyUp={this.handleKeyUp.bind(this)}
+
+                     onClick={() => this.props.socket.emit('jump')}>
 
                     {drawBlocks(this.state.blocks)}
 
